@@ -4,25 +4,30 @@ Usage: <wysiwyg textarea-id="question" textarea-class="form-control"  textarea-h
         textarea-id             The id to assign to the editable div
         textarea-class          The class(es) to assign to the the editable div
         textarea-height         If not specified in a text-area class then the hight of the editable div (default: 80px)
-        textarea-name           The name attribute of the editable div 
+        textarea-name           The name attribute of the editable div
         textarea-required       HTML/AngularJS required validation
         textarea-menu           Array of Arrays that contain the groups of buttons to show Defualt:Show all button groups
         ng-model                The angular data model
-        enable-bootstrap-title  True/False whether or not to show the button hover title styled with bootstrap  
+        enable-bootstrap-title  True/False whether or not to show the button hover title styled with bootstrap
 
-Requires: 
-    Twitter-bootstrap, fontawesome, jquery, angularjs, bootstrap-color-picker (https://github.com/buberdds/angular-bootstrap-colorpicker)
+Requires:
+    Twitter-bootstrap, fontawesome, no!jquery, angularjs, bootstrap-color-picker (https://github.com/buberdds/angular-bootstrap-colorpicker)
+
+Changes:
+    - Removed jQuery Dep, Uses jqLite API instead
+    - Remove Bootstrap jQuery JS for AngularUI Bootstrap
+    - Added Directive Callback Bindings - Helpful for async style injection of images, links e.t.c
 
 */
 
 /*
-    TODO: 
+    TODO:
         tab support
         custom button fuctions
 
         limit use of scope
         use compile fuction instead of $compile
-        move button elements to js objects and use doc fragments 
+        move button elements to js objects and use doc fragments
 */
 
 (function(angular, undefined) {
@@ -42,9 +47,13 @@ Requires:
         ['link', 'image']
     ];
 
+    //console.log(document.queryCommandSupported('enableObjectResizing') ? 'Resizing Supported' : 'Resizing Not Supported' );
+
     angular.module('wysiwyg.module', ['colorpicker.module'])
         .directive('wysiwyg', function($timeout, wysiwgGui, $compile) {
             return {
+
+                // Changed: DIV -> wysiwyg-menu, DIV -> editor
                 template: '<div>' +
                     '<style>' +
                     '   .wysiwyg-textarea[contentEditable="false"] { background-color:#eee}' +
@@ -52,8 +61,8 @@ Requires:
                     '   .wysiwyg-select { height:30px;margin-bottom:1px;}' +
                     '   .wysiwyg-colorpicker { font-family: arial, sans-serif !important;font-size:16px !important; padding:2px 10px !important;}' +
                     '</style>' +
-                    '<div class="wysiwyg-menu"></div>' +
-                    '<div id="{{textareaId}}" ng-attr-style="resize:vertical;height:{{textareaHeight || \'80px\'}}; overflow:auto" contentEditable="{{!disabled}}" class="{{textareaClass}} wysiwyg-textarea" rows="{{textareaRows}}" name="{{textareaName}}" required="{{textareaRequired}}" placeholder="{{textareaPlaceholder}}" ng-model="value"></div>' +
+                    '<wysiwyg-menu></wysiwyg-menu>' +
+                    '<editor id="{{textareaId}}" ng-attr-style="resize:vertical;height:{{textareaHeight || \'80px\'}}; overflow:auto" contentEditable={{!disabled}} class="{{textareaClass}} wysiwyg-textarea" rows="{{textareaRows}}" name="{{textareaName}}" required="{{textareaRequired}}" placeholder="{{textareaPlaceholder}}" ng-model="value"></editor>' +
                     '</div>',
                 restrict: 'E',
                 scope: {
@@ -66,6 +75,7 @@ Requires:
                     textareaMenu: '=textareaMenu',
                     textareaCustomMenu: '=textareaCustomMenu',
                     fn: '&',
+                    callbacks: '=callbacks',
                     disabled: '=?disabled',
                 },
                 replace: true,
@@ -76,7 +86,7 @@ Requires:
 
             function link(scope, element, attrs, ngModelController) {
 
-                var textarea = element.find('div.wysiwyg-textarea');
+                var textarea = element.find('editor');
 
                 scope.isLink = false;
 
@@ -125,6 +135,7 @@ Requires:
                     name: 'Heading 6',
                     value: 'h6'
                 }, ];
+
                 scope.formatBlock = scope.formatBlocks[0];
 
                 scope.fontSize = scope.fontSizes[1];
@@ -160,34 +171,25 @@ Requires:
 
                     compileMenu();
                     configureDisabledWatch();
-                    configureBootstrapTitle();
                     configureListeners();
                 }
 
                 function compileMenu() {
                     wysiwgGui.setCustomElements(scope.textareaCustomMenu);
-                    var menuDiv = element.children('div.wysiwyg-menu')[0];
+                    var menuDiv = element.find('wysiwyg-menu')[0]; //element.children('div.wysiwyg-menu')[0];
                     menuDiv.appendChild(wysiwgGui.createMenu(scope.textareaMenu));
                     $compile(menuDiv)(scope);
                 }
 
                 function configureDisabledWatch() {
                     scope.$watch('disabled', function(newValue) {
-                        angular.element('div.wysiwyg-menu').find('button').each(function() {
-                            angular.element(this).attr('disabled', newValue);
+                        angular.forEach(angular.element(element.find('wysiwyg-menu')[0]).find('button'), function(btn, k){
+                            angular.element(btn).attr('disabled', newValue);
                         });
-                        angular.element('div.wysiwyg-menu').find('select').each(function() {
-                            angular.element(this).attr('disabled', newValue);
+                        angular.forEach(angular.element(element.find('wysiwyg-menu')[0]).find('select'), function(btn, k){
+                            angular.element(btn).attr('disabled', newValue);
                         });
                     });
-                }
-
-                function configureBootstrapTitle() {
-                    if (attrs.enableBootstrapTitle === 'true' && attrs.enableBootstrapTitle !== undefined) {
-                        element.find('button[title]').tooltip({
-                            container: 'body'
-                        });
-                    }
                 }
 
                 function insertTab(html, position) {
@@ -199,7 +201,7 @@ Requires:
                 function configureListeners() {
 
                     //Send message to calling controller that a button has been clicked.
-                    angular.element('.wysiwyg-menu').find('button').on('click', function() {
+                    angular.element(element.find('wysiwyg-menu')[0]).find('button').on('click', function() {
                         var title = angular.element(this);
                         scope.$emit('wysiwyg.click', title.attr('title') || title.attr('data-original-title'));
                     });
@@ -212,7 +214,7 @@ Requires:
                         }
 
                         ngModelController.$setViewValue(html);
-                    }); 
+                    });
 
                     textarea.on('keydown', function(event){
                         if (event.keyCode == 9){
@@ -220,11 +222,11 @@ Requires:
                             var html = textarea.html();
                             var selection = window.getSelection();
                             var position = selection.anchorOffset;
-                    
+
                             event.preventDefault();
                             // html = insertTab(html, position);
                             // textarea.html(html);
-                            // selection.collapse(textarea[0].firstChild, position + TAB_SPACES);    
+                            // selection.collapse(textarea[0].firstChild, position + TAB_SPACES);
                         }
                     });
 
@@ -235,7 +237,7 @@ Requires:
                             scope.isStrikethrough = scope.cmdState('strikethrough');
                             scope.isItalic = scope.cmdState('italic');
                             scope.isSuperscript = itemIs('SUP'); //scope.cmdState('superscript');
-                            scope.isSubscript = itemIs('SUB'); //scope.cmdState('subscript');    
+                            scope.isSubscript = itemIs('SUB'); //scope.cmdState('subscript');
                             scope.isRightJustified = scope.cmdState('justifyright');
                             scope.isLeftJustified = scope.cmdState('justifyleft');
                             scope.isCenterJustified = scope.cmdState('justifycenter');
@@ -267,11 +269,11 @@ Requires:
                             });
 
                             scope.hiliteColor = getHiliteColor();
-                            element.find('button.wysiwyg-hiliteColor').css('background-color', scope.hiliteColor);
+                            angular.element(element[0].querySelector('button.wysiwyg-hilitecolor')).css('background-color', scope.hiliteColor);
 
                             scope.fontColor = scope.cmdValue('forecolor');
-                            element.find('button.wysiwyg-fontcolor').css('color', scope.fontColor);
 
+                            angular.element(element[0].querySelector('button.wysiwyg-fontcolor')).css('color', scope.fontColor);
                             scope.isLink = itemIs('A');
 
                         }, 0);
@@ -280,6 +282,10 @@ Requires:
 
                 //Used to detect things like A tags and others that dont work with cmdValue().
                 function itemIs(tag) {
+
+                    if(window.getSelection().rangeCount < 1)
+                        return false;
+
                     var selection = window.getSelection().getRangeAt(0);
                     if (selection) {
                         if (selection.startContainer.parentNode.tagName === tag.toUpperCase() || selection.endContainer.parentNode.tagName === tag.toUpperCase()) {
@@ -294,6 +300,10 @@ Requires:
 
                 //Used to detect things like A tags and others that dont work with cmdValue().
                 function getHiliteColor() {
+
+                    if(window.getSelection().rangeCount < 1)
+                        return false;
+
                     var selection = window.getSelection().getRangeAt(0);
                     if (selection) {
                         var style = angular.element(selection.startContainer.parentNode).attr('style');
@@ -331,15 +341,45 @@ Requires:
                 };
 
                 scope.createLink = function() {
-                    var input = prompt('Enter the link URL');
-                    if (input && input !== undefined)
-                        scope.format('createlink', input);
+
+                    if(scope.callbacks !== undefined && typeof scope.callbacks.link === 'function'){
+
+                        scope.callbacks.link(function(input){
+
+                            if(input && input !== undefined)
+                                scope.format('createlink', input);
+
+                        })
+
+                    }else{
+
+                        var input = prompt('Enter the link URL');
+
+                        if(input && input !== undefined)
+                            scope.format('createlink', input);
+                    }
+
                 };
 
                 scope.insertImage = function() {
-                    var input = prompt('Enter the image URL');
-                    if (input && input !== undefined)
-                        scope.format('insertimage', input);
+
+                    if(scope.callbacks !== undefined && typeof scope.callbacks.image === 'function'){
+
+                        scope.callbacks.image(function(input){
+
+                            if(input && input !== undefined)
+                                scope.format('insertimage', input);
+
+                        })
+
+                    }else{
+
+                        var input = prompt('Enter the image URL');
+
+                        if(input && input !== undefined)
+                            scope.format('insertimage', input);
+                    }
+
                 };
 
                 scope.setFont = function() {
@@ -362,7 +402,7 @@ Requires:
                     scope.format('hiliteColor', scope.hiliteColor);
                 };
 
-                scope.format('enableobjectresizing', true);
+                scope.format('enableObjectResizing', true);
                 scope.format('styleWithCSS', true);
             }
         })
@@ -476,7 +516,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Bold'
                 }, {
                     name: 'ng-click',
@@ -497,7 +537,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Italic'
                 }, {
                     name: 'ng-click',
@@ -518,7 +558,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Underline'
                 }, {
                     name: 'ng-click',
@@ -539,7 +579,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Strikethrough'
                 }, {
                     name: 'ng-click',
@@ -560,7 +600,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Subscript'
                 }, {
                     name: 'ng-click',
@@ -581,7 +621,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Superscript'
                 }, {
                     name: 'ng-click',
@@ -602,7 +642,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Remove Formatting'
                 }, {
                     name: 'ng-click',
@@ -620,7 +660,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Ordered List'
                 }, {
                     name: 'ng-click',
@@ -641,7 +681,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Unordered List'
                 }, {
                     name: 'ng-click',
@@ -662,7 +702,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Outdent'
                 }, {
                     name: 'ng-click',
@@ -680,7 +720,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Indent'
                 }, {
                     name: 'ng-click',
@@ -698,7 +738,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Left Justify'
                 }, {
                     name: 'ng-click',
@@ -719,7 +759,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Center Justify'
                 }, {
                     name: 'ng-click',
@@ -740,7 +780,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Right Justify'
                 }, {
                     name: 'ng-click',
@@ -761,7 +801,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Code'
                 }, {
                     name: 'ng-click',
@@ -782,7 +822,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Quote'
                 }, {
                     name: 'ng-click',
@@ -804,7 +844,7 @@ Requires:
                 classes: 'btn btn-default',
                 text: 'P',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Paragragh'
                 }, {
                     name: 'ng-click',
@@ -821,7 +861,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Image'
                 }, {
                     name: 'ng-click',
@@ -840,7 +880,7 @@ Requires:
                 classes: 'btn btn-default wysiwyg-colorpicker wysiwyg-fontcolor',
                 text: 'A',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Font Color'
                 }, {
                     name: 'colorpicker',
@@ -861,10 +901,10 @@ Requires:
             },
             'hilite-color': {
                 tag: 'button',
-                classes: 'btn btn-default wysiwyg-colorpicker wysiwyg-fontcolor',
+                classes: 'btn btn-default wysiwyg-colorpicker wysiwyg-hilitecolor',
                 text: 'H',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Hilite Color'
                 }, {
                     name: 'colorpicker',
@@ -887,7 +927,7 @@ Requires:
                 tag: 'select',
                 classes: 'form-control wysiwyg-select',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Image'
                 }, {
                     name: 'ng-model',
@@ -904,7 +944,7 @@ Requires:
                 tag: 'select',
                 classes: 'form-control wysiwyg-select',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Image'
                 }, {
                     name: 'ng-model',
@@ -921,7 +961,7 @@ Requires:
                 tag: 'select',
                 classes: 'form-control wysiwyg-select',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Format Block'
                 }, {
                     name: 'ng-model',
@@ -938,7 +978,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Link'
                 }, {
                     name: 'ng-click',
@@ -959,7 +999,7 @@ Requires:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'title',
+                    name: 'tooltip',
                     value: 'Unlink'
                 }, {
                     name: 'ng-click',
