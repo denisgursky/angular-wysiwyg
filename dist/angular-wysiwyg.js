@@ -86,6 +86,7 @@ Changes:
           textareaId: '@textareaId',
           textareaMenu: '=textareaMenu',
           textareaCustomMenu: '=textareaCustomMenu',
+          customFonts: '=',
           fn: '&',
           callbacks: '=callbacks',
           disabled: '=?disabled'
@@ -164,7 +165,7 @@ Changes:
           scope.cssClasses.unshift('css');
           scope.cssClass = scope.cssClasses[0];
         }
-        scope.fonts = [
+        scope.fonts = scope.customFonts || [
           'Georgia',
           'Palatino Linotype',
           'Times New Roman',
