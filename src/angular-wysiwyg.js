@@ -74,9 +74,10 @@ Changes:
                     textareaId: '@textareaId',
                     textareaMenu: '=textareaMenu',
                     textareaCustomMenu: '=textareaCustomMenu',
+                    customFonts: '=',
                     fn: '&',
                     callbacks: '=callbacks',
-                    disabled: '=?disabled',
+                    disabled: '=?disabled'
                 },
                 replace: true,
                 require: 'ngModel',
@@ -145,7 +146,7 @@ Changes:
                     scope.cssClass = scope.cssClasses[0];
                 }
 
-                scope.fonts = [
+                scope.fonts = scope.customFonts || [
                     'Georgia',
                     'Palatino Linotype',
                     'Times New Roman',
