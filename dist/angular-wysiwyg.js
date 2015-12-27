@@ -462,7 +462,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Bold'
         },
         {
@@ -488,7 +488,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Italic'
         },
         {
@@ -514,7 +514,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Underline'
         },
         {
@@ -540,7 +540,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Strikethrough'
         },
         {
@@ -566,7 +566,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Subscript'
         },
         {
@@ -592,7 +592,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Superscript'
         },
         {
@@ -618,7 +618,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Remove Formatting'
         },
         {
@@ -640,7 +640,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Ordered List'
         },
         {
@@ -666,7 +666,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Unordered List'
         },
         {
@@ -692,7 +692,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Outdent'
         },
         {
@@ -714,7 +714,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Indent'
         },
         {
@@ -736,7 +736,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Left Justify'
         },
         {
@@ -762,7 +762,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Center Justify'
         },
         {
@@ -788,7 +788,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Right Justify'
         },
         {
@@ -814,7 +814,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Code'
         },
         {
@@ -840,7 +840,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Quote'
         },
         {
@@ -867,7 +867,7 @@ Changes:
       text: 'P',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Paragragh'
         },
         {
@@ -889,7 +889,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Image'
         },
         {
@@ -912,7 +912,7 @@ Changes:
       text: 'A',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Font Color'
         },
         {
@@ -943,7 +943,7 @@ Changes:
       text: 'H',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Hilite Color'
         },
         {
@@ -973,7 +973,7 @@ Changes:
       classes: 'form-control wysiwyg-select',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Image'
         },
         {
@@ -995,7 +995,7 @@ Changes:
       classes: 'form-control wysiwyg-select',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Image'
         },
         {
@@ -1017,7 +1017,7 @@ Changes:
       classes: 'form-control wysiwyg-select',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Format Block'
         },
         {
@@ -1039,7 +1039,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Link'
         },
         {
@@ -1065,7 +1065,7 @@ Changes:
       classes: 'btn btn-default',
       attributes: [
         {
-          name: 'tooltip',
+          name: 'uib-tooltip',
           value: 'Unlink'
         },
         {

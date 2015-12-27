@@ -350,7 +350,7 @@ Changes:
                             if(input && input !== undefined)
                                 scope.format('createlink', input);
 
-                        })
+                        });
 
                     }else{
 
@@ -371,7 +371,7 @@ Changes:
                             if(input && input !== undefined)
                                 scope.format('insertimage', input);
 
-                        })
+                        });
 
                     }else{
 
@@ -517,7 +517,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Bold'
                 }, {
                     name: 'ng-click',
@@ -538,7 +538,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Italic'
                 }, {
                     name: 'ng-click',
@@ -559,7 +559,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Underline'
                 }, {
                     name: 'ng-click',
@@ -580,7 +580,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Strikethrough'
                 }, {
                     name: 'ng-click',
@@ -601,7 +601,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Subscript'
                 }, {
                     name: 'ng-click',
@@ -622,7 +622,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Superscript'
                 }, {
                     name: 'ng-click',
@@ -643,7 +643,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Remove Formatting'
                 }, {
                     name: 'ng-click',
@@ -661,7 +661,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Ordered List'
                 }, {
                     name: 'ng-click',
@@ -682,7 +682,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Unordered List'
                 }, {
                     name: 'ng-click',
@@ -703,7 +703,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Outdent'
                 }, {
                     name: 'ng-click',
@@ -721,7 +721,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Indent'
                 }, {
                     name: 'ng-click',
@@ -739,7 +739,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Left Justify'
                 }, {
                     name: 'ng-click',
@@ -760,7 +760,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Center Justify'
                 }, {
                     name: 'ng-click',
@@ -781,7 +781,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Right Justify'
                 }, {
                     name: 'ng-click',
@@ -802,7 +802,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Code'
                 }, {
                     name: 'ng-click',
@@ -823,7 +823,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Quote'
                 }, {
                     name: 'ng-click',
@@ -845,7 +845,7 @@ Changes:
                 classes: 'btn btn-default',
                 text: 'P',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Paragragh'
                 }, {
                     name: 'ng-click',
@@ -862,7 +862,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Image'
                 }, {
                     name: 'ng-click',
@@ -881,7 +881,7 @@ Changes:
                 classes: 'btn btn-default wysiwyg-colorpicker wysiwyg-fontcolor',
                 text: 'A',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Font Color'
                 }, {
                     name: 'colorpicker',
@@ -905,7 +905,7 @@ Changes:
                 classes: 'btn btn-default wysiwyg-colorpicker wysiwyg-hilitecolor',
                 text: 'H',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Hilite Color'
                 }, {
                     name: 'colorpicker',
@@ -928,7 +928,7 @@ Changes:
                 tag: 'select',
                 classes: 'form-control wysiwyg-select',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Image'
                 }, {
                     name: 'ng-model',
@@ -945,7 +945,7 @@ Changes:
                 tag: 'select',
                 classes: 'form-control wysiwyg-select',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Image'
                 }, {
                     name: 'ng-model',
@@ -962,7 +962,7 @@ Changes:
                 tag: 'select',
                 classes: 'form-control wysiwyg-select',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Format Block'
                 }, {
                     name: 'ng-model',
@@ -979,7 +979,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Link'
                 }, {
                     name: 'ng-click',
@@ -1000,7 +1000,7 @@ Changes:
                 tag: 'button',
                 classes: 'btn btn-default',
                 attributes: [{
-                    name: 'tooltip',
+                    name: 'uib-tooltip',
                     value: 'Unlink'
                 }, {
                     name: 'ng-click',
